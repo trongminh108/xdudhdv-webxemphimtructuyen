@@ -1,0 +1,15 @@
+@use '@/assets/scss/constants/variables' as vars;
+
+.sidebarCommentContainer {
+    border: thin solid vars.$primary-color;
+    background-color: vars.$primary-color;
+    height: 610px;
+    border-radius: 1rem;
+
+    & .comment-list {
+        overflow: scroll;
+        width: 100%;
+        height: 90%;
+        border-radius: 1rem;
+    }
+}

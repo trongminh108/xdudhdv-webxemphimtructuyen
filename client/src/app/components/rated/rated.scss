@@ -1,0 +1,40 @@
+@use '@/assets/scss/constants/variables' as vars;
+
+.ratedContainer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    .starsContainer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+
+        .star {
+            font-size: 12px;
+            // background-image: linear-gradient(to right, yellow 50%, black 50%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            &.full {
+                background-image: linear-gradient(
+                    to right,
+                    yellow 100%,
+                    black 0%
+                );
+            }
+
+            &.empty {
+                background-image: linear-gradient(
+                    to right,
+                    black 100%,
+                    yellow 0%
+                );
+            }
+        }
+    }
+
+    .rated {
+        margin-top: 3px;
+    }
+}

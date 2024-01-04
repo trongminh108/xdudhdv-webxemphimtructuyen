@@ -1,0 +1,16 @@
+@use '@/assets/scss/constants/variables' as vars;
+@use '@/assets/scss/constants/mixins' as mxs;
+
+.manageContainer {
+    background-color: vars.$background-color;
+
+    .table {
+        & th {
+            background-color: vars.$primary-color;
+            text-align: center;
+        }
+
+        & .iconManage {
+        }
+    }
+}

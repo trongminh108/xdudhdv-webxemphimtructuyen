@@ -1,0 +1,131 @@
+@use '@/assets/scss/constants/variables' as vars;
+@use '@/assets/scss/constants/mixins' as mxs;
+
+.paginationContainer {
+    background-color: blue;
+    height: 50px;
+
+    & > .btn-paginate {
+        width: 80px;
+        height: 15px;
+        background-color: yellow;
+        @include mxs.centerFlex;
+        border: none;
+        margin: 0 10px;
+        position: relative;
+        &:disabled {
+            color: vars.$disabled-color;
+        }
+        &:hover:not(:disabled) {
+            background-color: vars.$btnPage-hover;
+            &.btn-next,
+            &.btn-prev,
+            &.btn-num {
+                &::before {
+                    border-bottom-color: vars.$btnPage-hover;
+                }
+                &::after {
+                    border-top-color: vars.$btnPage-hover;
+                }
+            }
+        }
+
+        &.btn-next {
+            &::after {
+                content: '';
+                width: inherit;
+                border-right: 7px solid transparent;
+                border-top: 7px solid yellow;
+                position: absolute;
+                top: 100%;
+                left: 0;
+            }
+
+            &::before {
+                content: '';
+                width: inherit;
+                border-left: 7px solid transparent;
+                border-bottom: 7px solid yellow;
+                position: absolute;
+                top: -7px;
+                left: 0;
+            }
+        }
+
+        &.btn-prev {
+            &::before {
+                content: '';
+                width: inherit;
+                border-right: 7px solid transparent;
+                border-bottom: 7px solid yellow;
+                position: absolute;
+                top: -7px;
+                left: 0;
+            }
+
+            &::after {
+                content: '';
+                width: inherit;
+                border-left: 7px solid transparent;
+                border-top: 7px solid yellow;
+                position: absolute;
+                top: 100%;
+                left: 0;
+            }
+        }
+
+        &.btn-num {
+            width: 40px;
+
+            &::before {
+                content: '';
+                width: inherit;
+                border-bottom: 7px solid yellow;
+                position: absolute;
+                top: -7px;
+                left: 0;
+            }
+
+            &::after {
+                content: '';
+                width: inherit;
+                border-top: 7px solid yellow;
+                position: absolute;
+                top: 100%;
+                left: 0;
+            }
+
+            &.btn-right {
+                &::after {
+                    border-right: 7px solid transparent;
+                }
+
+                &::before {
+                    border-left: 7px solid transparent;
+                }
+            }
+
+            &.btn-left {
+                &::before {
+                    border-right: 7px solid transparent;
+                }
+
+                &::after {
+                    border-left: 7px solid transparent;
+                }
+            }
+
+            &.btn-center {
+                background-color: vars.$primary-color;
+                color: black;
+                font-weight: bold;
+                &::before,
+                &::after {
+                    border-color: vars.$primary-color;
+                    border-right: 5px solid transparent;
+                    border-left: 5px solid transparent;
+                }
+            }
+        }
+    }
+}

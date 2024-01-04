@@ -1,0 +1,26 @@
+@use '@/assets/scss/constants/variables' as vars;
+$film-wh: 50px;
+$wFilm: 16;
+$hFilm: 9;
+
+.watchFilmContainer {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: vars.$background-color;
+
+    .filmScreen {
+        width: calc($film-wh * $wFilm);
+        height: calc($film-wh * $hFilm);
+        background-color: black;
+        border-radius: 20px;
+        overflow: hidden;
+
+        .filmFrame {
+            border: none;
+            outline: none;
+        }
+    }
+}

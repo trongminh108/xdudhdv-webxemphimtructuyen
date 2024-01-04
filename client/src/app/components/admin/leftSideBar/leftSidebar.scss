@@ -1,0 +1,8 @@
+@use '@/assets/scss/constants/variables' as vars;
+
+.leftSidebarContainer {
+    width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    background-color: vars.$bg-secondary;
+}

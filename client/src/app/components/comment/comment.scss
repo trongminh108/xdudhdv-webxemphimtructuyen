@@ -1,0 +1,14 @@
+@use '@/assets/scss/constants/variables' as vars;
+
+.commentContainer {
+    height: auto;
+    padding: 0 !important;
+
+    & .avatar {
+        width: 3rem;
+        height: 3rem;
+        background-color: yellow;
+        border-radius: 50%;
+        justify-content: center;
+    }
+}

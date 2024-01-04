@@ -1,0 +1,8 @@
+@use '@/assets/scss/constants/variables' as vars;
+@use '@/assets/scss/constants/mixins' as mxs;
+
+.filmsContainer {
+    height: 100%;
+
+    background-color: vars.$third-color;
+}

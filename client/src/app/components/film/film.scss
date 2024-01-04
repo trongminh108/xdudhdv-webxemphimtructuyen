@@ -1,0 +1,50 @@
+// @import '@/assets/scss/constants/variables';
+@use '@/assets/scss/constants/variables' as vars;
+@use '@/assets/scss/constants/mixins' as mxs;
+
+.filmContainer {
+    width: calc(vars.$desktop-wh * vars.$w-ratio);
+    height: calc(vars.$desktop-wh * vars.$h-ratio);
+    border-radius: 15px;
+    background-color: black;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+
+    @include mxs.responsive('mobile') {
+        width: calc(vars.$mobile-wh * vars.$w-ratio);
+        height: calc(vars.$mobile-wh * vars.$h-ratio);
+    }
+
+    &:hover {
+        cursor: pointer;
+
+        .filmPoster {
+            transform: scale(1.2);
+        }
+
+        .filmDetail {
+            height: 30%;
+        }
+    }
+
+    .filmPoster {
+        transition: transform 0.3s ease;
+        width: 100%;
+        height: 100%;
+    }
+
+    .filmDetail {
+        width: 100%;
+        height: 50px;
+        background-color: rgba($color: black, $alpha: 0.9);
+        color: yellow;
+        position: absolute;
+        bottom: 0;
+        transition: height 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+}
