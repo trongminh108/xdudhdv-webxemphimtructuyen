@@ -7,8 +7,8 @@ import jakarta.persistence.*;
 public class QuocGia {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String id;
 
     @Column(name = "tenQuocGia")
     private String tenQuocGia;
@@ -16,16 +16,16 @@ public class QuocGia {
     public QuocGia() {
     }
 
-    public QuocGia(int id, String tenQuocGia) {
+    public QuocGia(String id, String tenQuocGia) {
         this.id = id;
         this.tenQuocGia = tenQuocGia;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

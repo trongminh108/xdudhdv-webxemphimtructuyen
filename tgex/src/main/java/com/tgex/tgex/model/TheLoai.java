@@ -8,7 +8,7 @@ public class TheLoai {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
     @Column(name = "tenTheLoai")
     private String tenTheLoai;
@@ -16,16 +16,16 @@ public class TheLoai {
     public TheLoai() {
     }
 
-    public TheLoai(int id, String tenTheLoai) {
+    public TheLoai(String id, String tenTheLoai) {
         this.id = id;
         this.tenTheLoai = tenTheLoai;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

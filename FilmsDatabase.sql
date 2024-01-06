@@ -37,7 +37,7 @@ CREATE TABLE `PHIM_DIENVIEN` (
   `id` varchar(255) PRIMARY KEY,
   `idPhim` varchar(255),
   `idDienVien` varchar(255),
-  `nhanvat` varchar(255)
+  `nhanVat` varchar(255)
 );
 
 CREATE TABLE `PHIM_THELOAI` (

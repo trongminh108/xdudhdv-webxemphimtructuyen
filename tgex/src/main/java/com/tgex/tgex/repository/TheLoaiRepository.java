@@ -5,9 +5,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.tgex.tgex.model.Phim;
+import com.tgex.tgex.model.TheLoai;
 
 @Repository
-public interface PhimRepository extends JpaRepository<Phim, String> {
-    Optional<Phim> findByTenVietTat(String tenVietTat);
+public interface TheLoaiRepository extends JpaRepository<TheLoai, String> {
+    Optional<TheLoai> findByTenTheLoai(String tenTheLoai);
 }

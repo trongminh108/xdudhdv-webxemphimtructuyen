@@ -6,16 +6,15 @@ import jakarta.persistence.*;
 @Table(name = "taikhoan")
 public class TaiKhoan {
 
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // private int id;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String tenTaiKhoan;
 
     @Column(name = "matKhau")
     private String matKhau;
+
+    @Column(name = "gmail")
+    private String gmail;
 
     @Column(name = "loaiQuyen")
     private int loaiQuyen;
@@ -53,6 +52,14 @@ public class TaiKhoan {
 
     public void setLoaiQuyen(int loaiQuyen) {
         this.loaiQuyen = loaiQuyen;
+    }
+
+    public String getGmail() {
+        return gmail;
+    }
+
+    public void setGmail(String gmail) {
+        this.gmail = gmail;
     }
 
 }

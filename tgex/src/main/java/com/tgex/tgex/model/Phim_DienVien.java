@@ -8,44 +8,44 @@ public class Phim_DienVien {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
     @Column(name = "idPhim")
-    private int idPhim;
+    private String idPhim;
 
     @Column(name = "idDienVien")
-    private int idDienVien;
+    private String idDienVien;
 
     public Phim_DienVien() {
     }
 
-    public Phim_DienVien(int id, int idPhim, int idDienVien) {
+    public Phim_DienVien(String id, String idPhim, String idDienVien) {
         this.id = id;
         this.idPhim = idPhim;
         this.idDienVien = idDienVien;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getIdPhim() {
+    public String getIdPhim() {
         return idPhim;
     }
 
-    public void setIdPhim(int idPhim) {
+    public void setIdPhim(String idPhim) {
         this.idPhim = idPhim;
     }
 
-    public int getIdDienVien() {
+    public String getIdDienVien() {
         return idDienVien;
     }
 
-    public void setIdDienVien(int idDienVien) {
+    public void setIdDienVien(String idDienVien) {
         this.idDienVien = idDienVien;
     }
 }

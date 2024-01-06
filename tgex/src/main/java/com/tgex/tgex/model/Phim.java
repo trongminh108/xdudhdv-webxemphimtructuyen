@@ -8,40 +8,44 @@ public class Phim {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
-    @Column(name = "tenVietTat")
+    @Column(name = "ten_viet_tat")
     private String tenVietTat;
 
-    @Column(name = "tenPhim")
+    @Column(name = "ten_phim")
     private String tenPhim;
 
-    @Column(name = "namPhatHanh")
+    @Column(name = "nam_phat_hanh")
     private int namPhatHanh;
 
-    @Column(name = "quocGia")
-    private int quocGia;
+    @Column(name = "quoc_gia")
+    private String quocGia;
 
-    @Column(name = "daoDien")
-    private int daoDien;
+    @Column(name = "dao_dien")
+    private String daoDien;
 
-    @Column(name = "loaiPhim")
+    @Column(name = "loai_phim")
     private String loaiPhim;
 
-    @Column(name = "linkPhim")
+    @Column(name = "link_phim")
     private String linkPhim;
 
-    @Column(name = "luotXem")
+    @Column(name = "luot_xem")
     private int luotXem;
 
-    @Column(name = "danhGia")
+    @Column(name = "danh_gia")
     private float danhGia;
 
-    @Column(name = "moTa")
+    @Column(name = "poster")
+    private String poster;
+
+    @Column(name = "mo_ta")
     private String moTa;
 
-    public Phim(int id, String tenVietTat, String tenPhim, int namPhatHanh, int quocGia, int daoDien, String loaiPhim,
-            String linkPhim, int luotXem, float danhGia, String moTa) {
+    public Phim(String id, String tenVietTat, String tenPhim, int namPhatHanh, String quocGia, String daoDien,
+            String loaiPhim,
+            String linkPhim, int luotXem, float danhGia, String poster, String moTa) {
         this.id = id;
         this.tenVietTat = tenVietTat;
         this.tenPhim = tenPhim;
@@ -52,25 +56,26 @@ public class Phim {
         this.linkPhim = linkPhim;
         this.luotXem = luotXem;
         this.danhGia = danhGia;
+        this.poster = poster;
         this.moTa = moTa;
     }
 
     public Phim() {
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getTenVietTat() {
+    public String gettenVietTat() {
         return tenVietTat;
     }
 
-    public void setTenVietTat(String tenVietTat) {
+    public void settenVietTat(String tenVietTat) {
         this.tenVietTat = tenVietTat;
     }
 
@@ -90,19 +95,19 @@ public class Phim {
         this.namPhatHanh = namPhatHanh;
     }
 
-    public int getQuocGia() {
+    public String getQuocGia() {
         return quocGia;
     }
 
-    public void setQuocGia(int quocGia) {
+    public void setQuocGia(String quocGia) {
         this.quocGia = quocGia;
     }
 
-    public int getDaoDien() {
+    public String getDaoDien() {
         return daoDien;
     }
 
-    public void setDaoDien(int daoDien) {
+    public void setDaoDien(String daoDien) {
         this.daoDien = daoDien;
     }
 
@@ -136,6 +141,14 @@ public class Phim {
 
     public void setDanhGia(float danhGia) {
         this.danhGia = danhGia;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
     }
 
     public String getMoTa() {
