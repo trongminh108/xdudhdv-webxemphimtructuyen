@@ -1,6 +1,6 @@
 interface actor {
     id?: string;
-    name?: string;
+    tenDienVien?: string;
 }
 
 export default actor;

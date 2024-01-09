@@ -1,6 +1,6 @@
 interface country {
     id?: string;
-    name: string;
+    tenQuocGia: string;
 }
 
 export default country;

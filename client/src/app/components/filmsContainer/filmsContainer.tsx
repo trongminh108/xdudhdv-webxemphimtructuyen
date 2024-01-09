@@ -1,7 +1,7 @@
 'use client';
 import './filmsContainer.scss';
 
-import { Suspense, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import PaginationInterface from '@/assets/interfaces/pagination';
@@ -18,6 +18,11 @@ function FilmsContainer({
     data: {}[];
     searchQuery?: string;
 }) {
+    const [films, setFilms] = useState([]);
+    useEffect(() => {
+        async function getFilms() {}
+    }, []);
+
     const [pagination, setPagination] = useState<PaginationInterface>({
         page: 1,
         limit: 8,

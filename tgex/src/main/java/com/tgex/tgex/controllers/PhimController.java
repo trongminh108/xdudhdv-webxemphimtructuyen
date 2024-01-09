@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tgex.tgex.exception.ResourceNotFoundException;
 import com.tgex.tgex.model.Phim;
 import com.tgex.tgex.repository.PhimRepository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class PhimController {
@@ -30,6 +31,11 @@ public class PhimController {
     @GetMapping("/films")
     public List<Phim> getAllFilms() {
         return phimRepository.findAll();
+    }
+
+    @GetMapping("/filmsDESC")
+    public List<Phim> getFilmsByView() {
+        return phimRepository.findAllByOrderByViewDesc();
     }
 
     @PostMapping("/films")

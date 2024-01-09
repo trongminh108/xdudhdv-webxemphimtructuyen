@@ -8,6 +8,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 
 import { useRouter } from 'next/navigation';
+import AccountService from '@/services/AccountService';
 
 function SignIn() {
     const [showPassword, setShowPassword] = useState<Boolean>(false);
@@ -16,7 +17,13 @@ function SignIn() {
     const router = useRouter();
 
     useEffect(() => {
+        async function getAccounts() {
+            const res = await AccountService.getObjects();
+            console.log(res);
+        }
+
         document.title = 'Sign in account';
+        getAccounts();
     }, []);
 
     function handleShowpassword() {

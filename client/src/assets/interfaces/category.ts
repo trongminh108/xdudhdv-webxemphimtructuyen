@@ -1,6 +1,6 @@
 interface category {
     id?: string;
-    name?: string;
+    tenTheLoai?: string;
 }
 
 export default category;

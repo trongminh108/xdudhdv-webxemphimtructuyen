@@ -1,8 +1,8 @@
 interface account {
-    username?: string;
-    password?: string;
+    tenTaiKhoan?: string;
+    matKhau?: string;
     gmail?: string;
-    role?: number;
+    loaiQuyen?: number;
 }
 
 export default account;

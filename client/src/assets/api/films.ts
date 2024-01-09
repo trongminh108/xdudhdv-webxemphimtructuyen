@@ -11,7 +11,7 @@ const films: Array<filmInterface> = [
         type: '1',
         linkFilm:
             'https://drive.google.com/file/d/1yNp1lrbFGopwcl_R-vrpV9zcE3EsVna_/preview',
-        poster: 'https://m.media-amazon.com/images/M/MV5BMTkzNzY5OTc3Nl5BMl5BanBnXkFtZTcwNjE4NDQzMQ@@._V1_.jpg',
+        poster: 'http://localhost:4000/image/fileSystem/accepted.jpg',
         views: 11,
         rate: 3.2,
         description:
@@ -27,7 +27,7 @@ const films: Array<filmInterface> = [
         type: '1',
         linkFilm:
             'https://drive.google.com/file/d/186i69w8eDyLXmNxZb4gBm4XO9dCL3J7p/preview',
-        poster: 'https://m.media-amazon.com/images/M/MV5BMTkzNzY5OTc3Nl5BMl5BanBnXkFtZTcwNjE4NDQzMQ@@._V1_.jpg',
+        poster: 'http://localhost:4000/image/fileSystem/ice-age-5.jpg',
         views: 22,
         rate: 2.85,
         description:

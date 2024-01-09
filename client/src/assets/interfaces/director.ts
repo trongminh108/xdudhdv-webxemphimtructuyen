@@ -1,6 +1,6 @@
 interface director {
     id?: string;
-    name?: string;
+    tenDaoDien?: string;
 }
 
 export default director;
