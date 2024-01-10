@@ -2,20 +2,21 @@ import './sidebar.scss';
 
 import Film from '../popularFilm/popularFilm';
 import { Container, Row, Col } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
+import FilmService from '@/services/FilmService';
 
 function Sidebar({ data }: { data: {}[] }) {
-    function compare(a: any, b: any) {
-        return b.views - a.views;
-    }
+    const [popularFilms, setPopularFilms] = useState([]);
 
-    data.sort(compare);
+    useEffect(() => {
+        async function getPopularFilms() {
+            const res = await FilmService.getFilmsViewDESC();
+            setPopularFilms(res);
+        }
+        getPopularFilms();
+    }, []);
 
     return (
-        // <div className="sidebarContainer">
-        //     {data.map((item: any) => (
-        //         <Film film={item} key={item.id} />
-        //     ))}
-        // </div>
         <Container fluid className="px-0">
             <Col>
                 <h3 className="text-white mt-4">Phim xem nhiều</h3>
@@ -34,7 +35,7 @@ function Sidebar({ data }: { data: {}[] }) {
                 my-4
                 sidebar-col"
             >
-                {data.map((item: any) => (
+                {popularFilms.map((item: any) => (
                     <Film film={item} key={item.id} />
                 ))}
             </Col>

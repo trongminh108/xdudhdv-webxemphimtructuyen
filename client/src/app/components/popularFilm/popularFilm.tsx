@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 import FilmInterface from '@/assets/interfaces/film';
 import Rated from '../rated/rated';
+import { BACKEND_URL_IMAGES } from '@/constants/url';
 
 function PopularFilm({ film }: { film: FilmInterface }) {
     return (
@@ -17,15 +18,15 @@ function PopularFilm({ film }: { film: FilmInterface }) {
                     id={film.id}
                     alt="film poster"
                     className="popularFilmPoster"
-                    src={film.poster}
+                    src={BACKEND_URL_IMAGES + film.poster}
                     width={270}
                     height={400}
                 />
             </div>
             <div className="popularFilmDetail">
-                <p>{film.name}</p>
-                <p>{film.views} views</p>
-                <Rated rated={film.rate} />
+                <p>{film.tenPhim}</p>
+                <p>{film.luotXem} views</p>
+                <Rated rated={film.danhGia} />
             </div>
         </Link>
     );

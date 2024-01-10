@@ -24,6 +24,17 @@ class ActorService {
     deleteObject(object_id: any) {
         return axios.delete(DATA_URL + '/' + object_id);
     }
+
+    async getObjectsByIdPhim(object_id: string) {
+        try {
+            const response = await axios.get(
+                BACKEND_URL + '/film_actors/' + object_id
+            );
+            return await response.data;
+        } catch (ex) {
+            return [];
+        }
+    }
 }
 
 export default new ActorService();

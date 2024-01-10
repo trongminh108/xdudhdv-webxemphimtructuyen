@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class DaoDien {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
 
     @Column(name = "tenDaoDien")

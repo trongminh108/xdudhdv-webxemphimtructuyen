@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +21,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tgex.tgex.exception.ResourceNotFoundException;
 import com.tgex.tgex.model.Phim;
 import com.tgex.tgex.repository.PhimRepository;
-import org.springframework.web.bind.annotation.RequestParam;
+import com.tgex.tgex.service.PhimService;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class PhimController {
 
     @Autowired
     private PhimRepository phimRepository;
+
+    @Autowired
+    private PhimService service;
 
     @GetMapping("/films")
     public List<Phim> getAllFilms() {
@@ -40,6 +45,7 @@ public class PhimController {
 
     @PostMapping("/films")
     public Phim createPhim(@RequestBody Phim phim) {
+        phim.setId((service.getLatestPhimId() + 1) + "");
         return phimRepository.save(phim);
     }
 
@@ -82,6 +88,17 @@ public class PhimController {
         return ResponseEntity.ok(updatedPhim);
     }
 
+    @PutMapping("/film_view/{id}")
+    public ResponseEntity<Phim> updatePhimView(@PathVariable String id) {
+        Phim phim = phimRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("phim not exist with id :" + id));
+
+        phim.setLuotXem(phim.getLuotXem() + 1);
+
+        Phim updatedPhim = phimRepository.save(phim);
+        return ResponseEntity.ok(updatedPhim);
+    }
+
     @DeleteMapping("/films/{id}")
     public ResponseEntity<Map<String, Boolean>> deletePhim(@PathVariable String id) {
         Phim phim = phimRepository.findById(id)
@@ -91,5 +108,16 @@ public class PhimController {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/phim_last_id")
+    public ResponseEntity<Integer> getLatestPhimId() {
+        Integer latestId = service.getLatestPhimId();
+
+        if (latestId == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(latestId);
     }
 }

@@ -32,25 +32,21 @@ public class StorageService {
         String rootPath = System.getProperty("user.dir");
 
         // Create the directory if it doesn't exist
-        String folderPath = rootPath + File.separator + FOLDER_PATH;
-        File directory = new File(folderPath);
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
+        String folderPath = rootPath + File.separator + "src/main/resources/static/upload";
+        // File directory = new File(folderPath);
+        // if (!directory.exists()) {
+        // directory.mkdirs();
+        // }
 
         String filePath = folderPath + File.separator + file.getOriginalFilename();
 
-        FileData fileData = fileDataRepository.save(FileData.builder()
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
-                .filePath(filePath).build());
+        // FileData fileData = fileDataRepository.save(FileData.builder()
+        // .name(file.getOriginalFilename())
+        // .type(file.getContentType())
+        // .filePath(filePath).build());
 
         file.transferTo(new File(filePath));
-
-        if (fileData != null) {
-            return "file uploaded successfully : " + filePath;
-        }
-        return null;
+        return file.getOriginalFilename();
     }
 
     public byte[] downloadImageFromFileSystem(String fileName) throws IOException {

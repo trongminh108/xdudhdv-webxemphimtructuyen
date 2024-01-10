@@ -9,20 +9,31 @@ class CategoryService {
         return await response.data.map((item: any) => item);
     }
 
-    createObject(object: any) {
-        return axios.post(DATA_URL, object);
+    async createObject(object: any) {
+        return await axios.post(DATA_URL, object);
     }
 
     getObjectById(object_id: any) {
         return axios.get(DATA_URL + '/' + object_id);
     }
 
-    updateObject(object: any, object_id: any) {
-        return axios.put(DATA_URL + '/' + object_id, object);
+    async updateObject(object: any, object_id: any) {
+        return await axios.put(DATA_URL + '/' + object_id, object);
     }
 
-    deleteObject(object_id: any) {
-        return axios.delete(DATA_URL + '/' + object_id);
+    async deleteObject(object_id: any) {
+        return await axios.delete(DATA_URL + '/' + object_id);
+    }
+
+    async getObjectsByIdPhim(idPhim: String) {
+        try {
+            const response = await axios.get(
+                BACKEND_URL + '/film_categories/' + idPhim
+            );
+            return await response.data.map((item: any) => item);
+        } catch (ex) {
+            return [];
+        }
     }
 }
 

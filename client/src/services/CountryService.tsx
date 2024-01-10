@@ -13,8 +13,9 @@ class CountryService {
         return axios.post(DATA_URL, object);
     }
 
-    getObjectById(object_id: any) {
-        return axios.get(DATA_URL + '/' + object_id);
+    async getObjectById(object_id: any) {
+        const response = await axios.get(DATA_URL + '/' + object_id);
+        return await response.data;
     }
 
     updateObject(object: any, object_id: any) {

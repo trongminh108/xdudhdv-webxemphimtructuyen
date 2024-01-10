@@ -1,4 +1,3 @@
-'use client';
 import './filmsContainer.scss';
 
 import { Suspense, useEffect, useRef, useState } from 'react';
@@ -10,6 +9,7 @@ import Film from '../film/film';
 import Pagination from '../pagination/pagination';
 import LoadingContainer from './loading';
 import films from '@/assets/api/films';
+import FilmService from '@/services/FilmService';
 
 function FilmsContainer({
     data,
@@ -20,7 +20,12 @@ function FilmsContainer({
 }) {
     const [films, setFilms] = useState([]);
     useEffect(() => {
-        async function getFilms() {}
+        async function getFilms() {
+            const res = await FilmService.getObjects();
+            setFilms(res);
+        }
+
+        getFilms();
     }, []);
 
     const [pagination, setPagination] = useState<PaginationInterface>({

@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tgex.tgex.exception.ResourceNotFoundException;
 import com.tgex.tgex.model.Phim_DienVien;
 import com.tgex.tgex.repository.Phim_DienVienRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class Phim_DienVienController {
 

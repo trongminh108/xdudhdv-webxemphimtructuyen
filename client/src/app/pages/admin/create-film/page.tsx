@@ -1,27 +1,68 @@
 'use client';
 
+import './create-film.scss';
+
+import axios from 'axios';
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
-import { Container, InputGroup, Row, Col } from 'react-bootstrap';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { Col, Container, InputGroup, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 import { useData } from '@/app/components/context/context';
-import { useMutation } from '@apollo/client';
+import category from '@/assets/interfaces/category';
+import country from '@/assets/interfaces/country';
+import director from '@/assets/interfaces/director';
+import filmInterface from '@/assets/interfaces/film';
+import { BACKEND_URL_FILE_UPLOAD, BACKEND_URL_IMAGES } from '@/constants/url';
 import { CREATE_FILM, UPDATE_FILM } from '@/graphql-client/mutations';
 import { getAllFilms } from '@/graphql-client/queries';
-import { useRouter } from 'next/navigation';
-import { BACKEND_URL_FILE_UPLOAD, BACKEND_URL_IMAGES } from '@/constants/url';
-import axios from 'axios';
+import CategoryService from '@/services/CategoryService';
+import CountryService from '@/services/CountryService';
+import DirectorService from '@/services/DirectorService';
+import FileUploadService from '@/services/FileUploadService';
+import Film_Category from '@/services/Film_Category';
+import FilmService from '@/services/FilmService';
+import { useMutation } from '@apollo/client';
 
 function CreateFilm() {
-    useEffect(() => {
-        document.title = 'Create new Film';
-    }, []);
-
     const router = useRouter();
     const [avatar, setAvatar] = useState('');
     const [fileImg, setFileImg] = useState();
+    const [filmData, setFilmData] = useState<filmInterface>();
+    const [directors, setDirectors] = useState<Array<director> | null>(null);
+    const [countries, setCountries] = useState<Array<country> | null>(null);
+    const [categories, setCategories] = useState<Array<category> | null>(null);
+    const [checkboxValues, setCheckboxValues] = useState<Array<any>>([]);
+
+    useEffect(() => {
+        async function getFilmById() {
+            const director_obj = await DirectorService.getObjects();
+            const country_obj = await CountryService.getObjects();
+            const category_obj = await CategoryService.getObjects();
+            setDirectors(director_obj);
+            setCountries(country_obj);
+            setCategories(category_obj);
+            setFilmData({
+                id: '0',
+                tenPhim: '',
+                tenVietTat: '',
+                namPhatHanh: 0,
+                quocGia: '',
+                daoDien: '',
+                loaiPhim: '1',
+                linkPhim: '',
+                luotXem: 0,
+                danhGia: 0,
+                poster: '',
+                moTa: '',
+            });
+        }
+
+        document.title = 'Create new Film';
+        getFilmById();
+    }, []);
 
     useEffect(() => {
         return () => {
@@ -33,86 +74,56 @@ function CreateFilm() {
         const file = event.target.files[0];
         setAvatar(URL.createObjectURL(file));
         setFileImg(file);
+        setFilmData((prev: any) => ({ ...prev, poster: file.name }));
     }
-
-    const [formData, setFormData] = useState({
-        name: '',
-        category: '',
-        releaseYear: '',
-        country: '',
-        director: '',
-        actors: '',
-        views: '',
-        rate: '',
-        linkFilm: '',
-        description: '',
-    });
-
-    const [createFilmMutation, datacreateFilmMutation] =
-        useMutation(CREATE_FILM);
 
     const handleInputChange = (e: any) => {
         const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
+        setFilmData((prevData: any) => ({ ...prevData, [name]: value }));
     };
 
-    async function handleSaveFile() {
-        const formData = new FormData();
-        await formData.append('file', fileImg);
-        await axios
-            .post(BACKEND_URL_FILE_UPLOAD, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            })
-            .then((response) => {
-                console.log(response?.data);
-            })
-            .catch((rej) => {
-                console.log(rej.message);
-            });
+    function handleCheckboxChange(category: any) {
+        setCheckboxValues((prev: any) => {
+            return prev.includes(category)
+                ? prev.filter((item: any) => item !== category)
+                : [...prev, category];
+        });
     }
 
     async function handleSaveOnClick(e: any) {
         e.preventDefault();
-        const createFilmInput = {
-            name: formData.name,
-            category: formData.category
-                .split(',')
-                .map((category: any) => category.trim()),
-            releaseYear: formData.releaseYear,
-            country: formData.country,
-            director: formData.director,
-            actors: formData.actors
-                .split(',')
-                .map((actor: any) => actor.trim()),
-            poster: '',
-            views: formData.views,
-            rate: formData.rate,
-            linkFilm: formData.linkFilm,
-            description: formData.description,
-        };
-        try {
-            if (fileImg != undefined) {
-                handleSaveFile();
-                createFilmInput.poster = BACKEND_URL_IMAGES + fileImg?.name;
+
+        const result = window.confirm(
+            `Do you want to add new film ${filmData?.tenPhim}`
+        );
+
+        if (result) {
+            try {
+                if (fileImg) await FileUploadService.uploadFile(fileImg);
+                await FilmService.createObject(filmData);
+                await Film_Category.addCategoriesByIdPhim(
+                    checkboxValues,
+                    filmData?.id
+                );
+                // console.log(filmData);
+                alert(`Updated ${filmData?.tenPhim} success!`);
+            } catch (ex: any) {
+                console.log('Error: ', ex.message);
             }
-            await createFilmMutation({
-                variables: { createFilmInput: createFilmInput },
-                refetchQueries: [{ query: getAllFilms }],
-            });
-            alert('Created success!');
-            router.replace('/pages/admin/manage');
-        } catch (ex: any) {
-            console.log('Error: ', ex.message);
         }
     }
 
+    if (filmData == null)
+        return (
+            <Container>
+                <p className="text-dark">{`You need admin permission :<`}</p>
+            </Container>
+        );
+
     return (
-        <Container fluid className="edit-film-container">
+        <Container fluid className="edit-film-container py-3">
             <Form className="m-4">
                 <div className="mb-3">
-                    <p className="fw-bold">Poster film</p>
                     <input
                         type="file"
                         name="uploadImage"
@@ -120,9 +131,13 @@ function CreateFilm() {
                         className="uploadImage"
                         onChange={handleOnChange}
                     />
-                    {avatar && (
-                        <Image alt="" src={avatar} width={135} height={200} />
-                    )}
+
+                    <Image
+                        alt="poster"
+                        src={avatar || `/../../../../images/LogoTGex.png`}
+                        width={135}
+                        height={200}
+                    />
                 </div>
                 <InputGroup className="mb-3">
                     <InputGroup.Text className="fw-bold">
@@ -130,21 +145,37 @@ function CreateFilm() {
                     </InputGroup.Text>
                     <Form.Control
                         type="text"
-                        name="name"
+                        name="tenPhim"
                         onChange={handleInputChange}
-                        value={formData.name}
+                        value={filmData.tenPhim}
                     />
                 </InputGroup>
                 <InputGroup className="mb-3">
                     <InputGroup.Text className="fw-bold">
-                        Categories:
+                        Film short name:
                     </InputGroup.Text>
                     <Form.Control
                         type="text"
-                        name="category"
+                        name="tenVietTat"
                         onChange={handleInputChange}
-                        value={formData.category}
+                        value={filmData.tenVietTat}
                     />
+                </InputGroup>
+                <InputGroup className="mb-3 d-flex align-items-center">
+                    <InputGroup.Text className="fw-bold">
+                        Categories:
+                    </InputGroup.Text>
+                    {categories?.map((item) => (
+                        <Col key={item.id}>
+                            <Form.Check
+                                type="checkbox"
+                                label={item.tenTheLoai}
+                                id={item.id}
+                                checked={checkboxValues.includes(item.id)}
+                                onChange={() => handleCheckboxChange(item.id)}
+                            />
+                        </Col>
+                    ))}
                 </InputGroup>
                 <InputGroup className="mb-3">
                     <InputGroup.Text className="fw-bold">
@@ -152,53 +183,69 @@ function CreateFilm() {
                     </InputGroup.Text>
                     <Form.Control
                         type="number"
-                        name="releaseYear"
+                        name="namPhatHanh"
                         onChange={handleInputChange}
-                        value={formData.releaseYear}
+                        value={filmData.namPhatHanh}
                     />
                 </InputGroup>
                 <InputGroup className="mb-3">
                     <InputGroup.Text className="fw-bold">
                         Country:
                     </InputGroup.Text>
-                    <Form.Control
-                        type="text"
-                        name="country"
+                    <Form.Select
+                        aria-label="Default select example"
                         onChange={handleInputChange}
-                        value={formData.country}
-                    />
+                        name="quocGia"
+                        value={filmData.quocGia}
+                    >
+                        {countries?.map((dir: country) => {
+                            return (
+                                <option value={dir.id} key={dir.id}>
+                                    {dir.tenQuocGia}
+                                </option>
+                            );
+                        })}
+                    </Form.Select>
                 </InputGroup>
                 <InputGroup className="mb-3">
                     <InputGroup.Text className="fw-bold">
                         Director:
                     </InputGroup.Text>
-                    <Form.Control
-                        type="text"
-                        name="director"
+                    <Form.Select
+                        aria-label="Default select example"
                         onChange={handleInputChange}
-                        value={formData.director}
-                    />
+                        name="daoDien"
+                        value={filmData.daoDien}
+                    >
+                        {directors?.map((dir: director) => {
+                            return (
+                                <option value={dir.id} key={dir.id}>
+                                    {dir.tenDaoDien}
+                                </option>
+                            );
+                        })}
+                    </Form.Select>
                 </InputGroup>
-                <InputGroup className="mb-3">
-                    <InputGroup.Text className="fw-bold">
-                        Actors:
-                    </InputGroup.Text>
-                    <Form.Control
-                        type="text"
-                        name="actors"
-                        onChange={handleInputChange}
-                        value={formData.actors}
-                    />
-                </InputGroup>
+                {/* <InputGroup className="mb-3">
+                        <InputGroup.Text className="fw-bold">
+                            Actors:
+                        </InputGroup.Text>
+                        <Form.Control
+                            type="text"
+                            name="actors"
+                            onChange={handleInputChange}
+                            value={formData.actors}
+                        />
+                    </InputGroup> */}
                 <InputGroup className="mb-3">
                     <InputGroup.Text className="fw-bold">
                         Views:
                     </InputGroup.Text>
                     <Form.Control
                         type="number"
-                        name="views"
+                        name="luotXem"
                         onChange={handleInputChange}
-                        value={formData.views}
+                        value={filmData.luotXem}
                     />
                 </InputGroup>
                 <InputGroup className="mb-3">
@@ -207,9 +254,9 @@ function CreateFilm() {
                     </InputGroup.Text>
                     <Form.Control
                         type="text"
-                        name="rate"
+                        name="danhGia"
                         onChange={handleInputChange}
-                        value={formData.rate}
+                        value={filmData.danhGia}
                     />
                 </InputGroup>
                 <InputGroup className="mb-3">
@@ -218,9 +265,9 @@ function CreateFilm() {
                     </InputGroup.Text>
                     <Form.Control
                         type="text"
-                        name="linkFilm"
+                        name="linkPhim"
                         onChange={handleInputChange}
-                        value={formData.linkFilm}
+                        value={filmData.linkPhim}
                     />
                 </InputGroup>
 
@@ -233,8 +280,8 @@ function CreateFilm() {
                         as="textarea"
                         rows={3}
                         onChange={handleInputChange}
-                        value={formData.description}
-                        name="description"
+                        value={filmData.moTa}
+                        name="moTa"
                     />
                 </Form.Group>
                 <Row>

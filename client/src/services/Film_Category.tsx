@@ -1,7 +1,7 @@
 import { BACKEND_URL } from '@/constants/url';
 import axios from 'axios';
 
-const DATA_URL = BACKEND_URL + '/film_categories';
+const DATA_URL = BACKEND_URL + '/films_categories';
 
 class Film_Category {
     async getObjects() {
@@ -21,8 +21,23 @@ class Film_Category {
         return axios.put(DATA_URL + '/' + object_id, object);
     }
 
-    deleteObject(object_id: any) {
-        return axios.delete(DATA_URL + '/' + object_id);
+    async deleteObject(object_id: any) {
+        return await axios.delete(DATA_URL + '/' + object_id);
+    }
+
+    async deleteObjectsByIdPhim(idPhim: String) {
+        return await axios.delete(BACKEND_URL + '/deleteByIdPhim/' + idPhim);
+    }
+
+    async addCategoriesByIdPhim(categories: Array<String>, idPhim: any) {
+        await this.deleteObjectsByIdPhim(idPhim);
+        for (const cate of categories) {
+            await this.createObject({
+                id: '0',
+                idPhim: idPhim,
+                idTheLoai: cate,
+            });
+        }
     }
 }
 

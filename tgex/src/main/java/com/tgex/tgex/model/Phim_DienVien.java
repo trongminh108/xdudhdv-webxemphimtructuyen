@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class Phim_DienVien {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(name = "idPhim")

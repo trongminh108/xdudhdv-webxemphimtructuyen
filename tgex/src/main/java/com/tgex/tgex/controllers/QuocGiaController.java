@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tgex.tgex.exception.ResourceNotFoundException;
 import com.tgex.tgex.model.QuocGia;
 import com.tgex.tgex.repository.QuocGiaRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class QuocGiaController {
 

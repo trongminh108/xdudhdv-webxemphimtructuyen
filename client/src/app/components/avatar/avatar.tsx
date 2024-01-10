@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 import { useEffect, useRef, useState } from 'react';
 
-import removeCookiesUser from '@/features/removeCookies';
+import { removeCookiesUser } from '@/features/Cookies';
 import { useData } from '../context/context';
 
 let optionData = [

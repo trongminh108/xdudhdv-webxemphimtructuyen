@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class TaiKhoan {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String tenTaiKhoan;
 
     @Column(name = "matKhau")
@@ -19,9 +18,10 @@ public class TaiKhoan {
     @Column(name = "loaiQuyen")
     private int loaiQuyen;
 
-    public TaiKhoan(String tenTaiKhoan, String matKhau, int loaiQuyen) {
+    public TaiKhoan(String tenTaiKhoan, String matKhau, String gmail, int loaiQuyen) {
         this.tenTaiKhoan = tenTaiKhoan;
         this.matKhau = matKhau;
+        this.gmail = gmail;
         this.loaiQuyen = loaiQuyen;
     }
 

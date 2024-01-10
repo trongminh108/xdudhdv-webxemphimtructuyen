@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tgex.tgex.exception.ResourceNotFoundException;
 import com.tgex.tgex.model.TheLoai;
 import com.tgex.tgex.repository.TheLoaiRepository;
+import com.tgex.tgex.service.TheLoaiService;
+
+import org.springframework.web.bind.annotation.RequestParam;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -27,6 +30,9 @@ public class TheLoaiController {
     @Autowired
     private TheLoaiRepository repository;
 
+    @Autowired
+    private TheLoaiService service;
+
     @GetMapping("/categories")
     public List<TheLoai> getAllObjects() {
         return repository.findAll();
@@ -34,6 +40,7 @@ public class TheLoaiController {
 
     @PostMapping("/categories")
     public TheLoai createObject(@RequestBody TheLoai object) {
+        object.setId((service.getLatestTheLoaiId() + 1) + "");
         return repository.save(object);
     }
 
@@ -53,6 +60,17 @@ public class TheLoaiController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/film_categories/{idPhim}")
+    public ResponseEntity<List<TheLoai>> getObjectsByIdPhim(@PathVariable String idPhim) {
+        List<TheLoai> theLoaiList = repository.findTheLoaiByPhimId(idPhim);
+
+        if (theLoaiList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(theLoaiList);
     }
 
     @PutMapping("/categories/{id}")
@@ -75,5 +93,19 @@ public class TheLoaiController {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/category_last_id")
+    public ResponseEntity<Integer> getLatestTheLoaiId() {
+        Integer latestId = service.getLatestTheLoaiId();
+
+        if (latestId == null) {
+            // Nếu không tìm thấy dữ liệu, trả về mã lỗi hoặc thông báo khác tùy vào yêu cầu
+            // của bạn.
+            return ResponseEntity.notFound().build();
+        }
+
+        // Trả về giá trị id nếu tìm thấy.
+        return ResponseEntity.ok(latestId);
     }
 }

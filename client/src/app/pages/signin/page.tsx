@@ -1,8 +1,6 @@
 'use client';
 import './signin.scss';
 
-import { MD5 } from 'crypto-js';
-import Cookies from 'js-cookie';
 import Image from 'next/image';
 import React, { useState, useEffect } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
@@ -17,13 +15,7 @@ function SignIn() {
     const router = useRouter();
 
     useEffect(() => {
-        async function getAccounts() {
-            const res = await AccountService.getObjects();
-            console.log(res);
-        }
-
         document.title = 'Sign in account';
-        getAccounts();
     }, []);
 
     function handleShowpassword() {
@@ -38,33 +30,22 @@ function SignIn() {
         setPassword_inp(e.target.value);
     };
 
+    async function getAccounts() {
+        const res = await AccountService.getObjects();
+        return res;
+    }
+
     async function handleSubmitForm(e: any) {
         e.preventDefault();
         try {
-            const expirationDate = new Date();
-            expirationDate.setHours(expirationDate.getHours() + 7);
-            const optionCookie = {
-                expires: expirationDate,
-                path: '/',
-            };
-            // Cookies.set('access_token', data.login.access_token, optionCookie);
-            // Cookies.set(
-            //     'access_token_username',
-            //     data.login.user.username,
-            //     optionCookie
-            // );
-            // Cookies.set(
-            //     'access_token_gmail',
-            //     data.login.user.gmail,
-            //     optionCookie
-            // );
-            // Cookies.set(
-            //     'access_token_role',
-            //     data.login.user.role,
-            //     optionCookie
-            // );
-            // alert(`Login successful: ${data.login.user.username}`);
-            router.replace('/home');
+            const isLogin = await AccountService.login(
+                username_inp,
+                password_inp
+            );
+            if (isLogin != -1) {
+                alert(`Login success, hello: ${isLogin}`);
+                router.replace('/home');
+            } else alert('Login fail');
         } catch (err: any) {
             console.error('Login error:', err.message);
         }

@@ -18,6 +18,9 @@ import java.util.Optional;
 import com.tgex.tgex.exception.ResourceNotFoundException;
 import com.tgex.tgex.model.DaoDien;
 import com.tgex.tgex.repository.DaoDienRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+@CrossOrigin(origins = "http://localhost:3000")
 
 @RestController
 public class DaoDienController {

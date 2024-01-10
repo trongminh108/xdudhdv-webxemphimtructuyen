@@ -9,7 +9,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import Avatar from '@/app/components/avatar/avatar';
 import SearchBar from '@/app/components/searchBar/searchBar';
-import { user_role } from '@/constants/cookies';
+import { access_token_role } from '@/constants/cookies';
 import { useData } from '../context/context';
 
 const dataNav = [
@@ -41,7 +41,7 @@ function Navigation() {
     const [pathName, setPathName] = useState(usePathname());
     const [role_admin, setRole_admin] = useState('');
     const { data } = useData();
-    let cookie_role = Cookies.get(user_role);
+    let cookie_role = Cookies.get(access_token_role);
 
     useEffect(() => {
         const nav = navRef.current;
@@ -61,7 +61,7 @@ function Navigation() {
             }
         } catch (ex) {}
 
-        cookie_role = Cookies.get(user_role);
+        cookie_role = Cookies.get(access_token_role);
         if (cookie_role) setRole_admin(cookie_role);
         else setRole_admin(data);
     }, [pathName, cookie_role, data]);

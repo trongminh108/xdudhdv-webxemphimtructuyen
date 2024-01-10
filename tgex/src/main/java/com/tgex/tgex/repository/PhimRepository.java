@@ -13,6 +13,9 @@ import com.tgex.tgex.model.Phim;
 public interface PhimRepository extends JpaRepository<Phim, String> {
     Optional<Phim> findByTenVietTat(String tenVietTat);
 
-    @Query("SELECT f FROM Phim f ORDER BY f.luotXem DESC")
+    @Query("SELECT f FROM Phim f ORDER BY f.luotXem DESC LIMIT 5")
     List<Phim> findAllByOrderByViewDesc();
+
+    @Query("SELECT c.id FROM Phim c")
+    List<String> findAllIdPhim();
 }

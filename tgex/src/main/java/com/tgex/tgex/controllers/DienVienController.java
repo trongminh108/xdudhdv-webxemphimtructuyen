@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tgex.tgex.exception.ResourceNotFoundException;
 import com.tgex.tgex.model.DienVien;
+import com.tgex.tgex.model.TheLoai;
 import com.tgex.tgex.repository.DienVienRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestParam;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class DienVienController {
 
@@ -73,5 +77,16 @@ public class DienVienController {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/film_actors/{idPhim}")
+    public ResponseEntity<List<DienVien>> getObjectsByIdPhim(@PathVariable String idPhim) {
+        List<DienVien> objects = repository.findObjectsByIdPhim(idPhim);
+
+        if (objects.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(objects);
     }
 }
