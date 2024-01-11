@@ -22,4 +22,9 @@ public interface Phim_TheLoaiRepository extends JpaRepository<Phim_TheLoai, Stri
     @Transactional
     @Query("DELETE FROM Phim_TheLoai ptl WHERE ptl.idPhim = :idPhim")
     void deleteAllByIdPhim(@Param("idPhim") String idPhim);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Phim_TheLoai ptl WHERE ptl.idTheLoai = :idTheLoai")
+    void deleteAllByIdTheLoai(@Param("idTheLoai") String idTheLoai);
 }

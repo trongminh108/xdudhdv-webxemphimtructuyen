@@ -29,6 +29,12 @@ class Film_Category {
         return await axios.delete(BACKEND_URL + '/deleteByIdPhim/' + idPhim);
     }
 
+    async deleteObjectsByIdTheLoai(idTheLoai: String) {
+        return await axios.delete(
+            BACKEND_URL + '/deleteByIdTheLoai/' + idTheLoai
+        );
+    }
+
     async addCategoriesByIdPhim(categories: Array<String>, idPhim: any) {
         await this.deleteObjectsByIdPhim(idPhim);
         for (const cate of categories) {

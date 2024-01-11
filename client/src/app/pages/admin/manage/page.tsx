@@ -16,6 +16,7 @@ import { access_token_role } from '@/constants/cookies';
 import FilmService from '@/services/FilmService';
 import filmInterface from '@/assets/interfaces/film';
 import { BACKEND_URL_IMAGES } from '@/constants/url';
+import Film_Category from '@/services/Film_Category';
 
 function Manage() {
     const [films, setFilms] = useState<Array<filmInterface> | null>(null);
@@ -42,6 +43,8 @@ function Manage() {
         const result = window.confirm(`Do you want to delete ${film_name}`);
 
         if (result) {
+            Film_Category.deleteObjectsByIdPhim(film_id);
+            FilmService.deleteObject(film_id);
             alert(`Deleted success film ${film_name}`);
         }
     }

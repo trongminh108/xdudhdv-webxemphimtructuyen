@@ -92,6 +92,17 @@ public class Phim_TheLoaiController {
         }
     }
 
+    @DeleteMapping("/deleteByIdTheLoai/{idTheLoai}")
+    public ResponseEntity<String> deleteAllByIdTheLoai(@PathVariable String idTheLoai) {
+        try {
+            repository.deleteAllByIdTheLoai(idTheLoai);
+            return ResponseEntity.ok("Đã xóa các bản ghi có idTheLoai = " + idTheLoai);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Lỗi xóa bản ghi: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/film_category_last_id")
     public ResponseEntity<Integer> getLatestPhimTheLoaiId() {
         Integer latestId = service.getLatestPhimTheLoaiId();

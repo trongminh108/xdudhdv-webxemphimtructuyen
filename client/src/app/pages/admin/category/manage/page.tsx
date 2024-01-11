@@ -11,6 +11,7 @@ import { MdDelete } from 'react-icons/md';
 import { useData } from '@/app/components/context/context';
 import categoryInterface from '@/assets/interfaces/category';
 import CategoryService from '@/services/CategoryService';
+import Film_Category from '@/services/Film_Category';
 
 function ManageCategories() {
     const [categories, setCategories] = useState<any>(null);
@@ -50,10 +51,11 @@ function ManageCategories() {
         }
     }
 
-    async function handleDeleteFilm(cate_id: any, cate_name: any) {
+    async function handleDeleteCategory(cate_id: any, cate_name: any) {
         const result = window.confirm(`Do you want to delete ${cate_name}`);
 
         if (result) {
+            await Film_Category.deleteObjectsByIdTheLoai(cate_id);
             await CategoryService.deleteObject(cate_id);
 
             alert(`Deleted success Category ${cate_name}`);
@@ -159,7 +161,7 @@ function ManageCategories() {
                                             <Link
                                                 href={``}
                                                 onClick={() => {
-                                                    handleDeleteFilm(
+                                                    handleDeleteCategory(
                                                         cate.id,
                                                         cate.tenTheLoai
                                                     );
